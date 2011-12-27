@@ -1,43 +1,51 @@
-#!/usr/bin/env perl
-use common::sense;
-use autodie;
+package Lingua::ZH::Segment;
+use strict;
+use warnings;
 use utf8;
 use Encode qw (is_utf8);
 use encoding 'utf8';
-use List::Util qw(max min sum);
+use List::Util qw(sum);
 
-my %dict;
-while (<DATA>){
-  chomp;
-  my ($phrase,$freq) = split;
-  $dict{$phrase}=$freq;
+our $VERSION=0.010;
+
+our %dict;
+
+sub new {
+  my $class = shift;
+  my $self = { };
+  while (<DATA>){
+    chomp;
+    my ($phrase,$freq) = split;
+    $dict{$phrase}=$freq;
+  }
+  bless $self, $class;
+  return $self;
 }
 
-my @phrases;
-while(<>){
-  chomp;
-  die unless is_utf8($_);
-  for my $str (split (/([[:print:]]+)/a, $_)) {
+sub mmseg {
+  my $self = shift;
+  my $string = shift;
+  my @phrases;
+  die unless is_utf8($string);
+  chomp ($string);
+  for my $str (split (/([[:print:]]+)/a, $string)) {
     if ($str =~ /^[[:print:]]/a) {
       push @phrases, $str;
       next;
     }
     while($str){
-      my $word1 = &mmseg($str);
+      my $word1 = &_mmseg($str);
       push @phrases, $word1;
       $str = substr $str, length $word1;
     }
   }
+  return @phrases;
 }
 
-
-say "============";
-
-say for @phrases;
  
-sub mmseg {
+sub _mmseg {
   my $str = shift;
-  my @chunk = &findChunk($str);
+  my @chunk = &_findChunk($str);
 
   return $chunk[0]->{w1} if $#chunk == 0;
 
@@ -63,13 +71,23 @@ sub mmseg {
   my @mvc_tmp = sort {$a->{varience} <=> $b->{varience}} @max_len_chunk;
   my @min_varience_chunk = 
     grep {abs($_->{varience} - $mvc_tmp[0]->{varience})<0.01} @mvc_tmp;
-  return $min_varience_chunk[0]->{w1} ;
+  return $min_varience_chunk[0]->{w1} if $#min_varience_chunk == 0;
+  # rule 4, check length one word and choose max freq of it
+  for (@min_varience_chunk) {
+    my $freq = 0;
+    $freq += $dict{$_->{w1}} if length $_->{w1} == 1;
+    $freq += $dict{$_->{w2}} if length $_->{w2} == 1;
+    $freq += $dict{$_->{w3}} if length $_->{w3} == 1;
+    $_->{freq} = $freq;
+  }
+  my @last = sort {$b->{freq} <=> $a->{freq}} @min_varience_chunk;
+  return $last[0]->{w1};
 }
 
     
 
 
-sub findChunk{
+sub _findChunk{
   my $str = shift;
   my $index = 0;
   my @chunk;
@@ -134,6 +152,8 @@ sub findChunk{
   }
   return @chunk;
 }
+
+1;
 
 __DATA__
 ˇ 1
