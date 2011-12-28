@@ -32,14 +32,15 @@ rewritten in pure Perl, and the phrase library is 新酷音 forked from
 
 # INSTALL
 
-If you are familier with CPAN, just simply
+To install this module, just type
 
     cpanm Lingua::ZH::MMSEG
 
-If you are not,
+If you don't have cpanm,
 
-    make 
-    sudo make install
+    curl -LO http://bit.ly/cpanm
+    chmod +x cpanm
+    sudo cp cpanm /usr/local/bin
 
 # USAGE
 

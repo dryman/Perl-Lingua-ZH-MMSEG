@@ -6,7 +6,7 @@ use Encode qw (is_utf8);
 use encoding 'utf8';
 use List::Util qw(sum);
 
-our $VERSION=0.30;
+our $VERSION=0.3001;
 
 =encoding utf8
 
@@ -44,14 +44,15 @@ L<OpenFoundry|http://www.openfoundry.org/of/projects/436>.
 
 =head1 INSTALL
 
-If you are familier with CPAN, just simply
+To install this module, just type
 
     cpanm Lingua::ZH::MMSEG
 
-If you are not,
+If you don't have cpanm,
 
-    make 
-    sudo make install
+    curl -LO http://bit.ly/cpanm
+    chmod +x cpanm
+    sudo cp cpanm /usr/local/bin
 
 =head1 USAGE
 
