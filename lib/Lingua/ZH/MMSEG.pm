@@ -24,14 +24,12 @@ Lingua::ZH::MMSEG Mandarin Chinese segmentation
     use utf8;
     use Lingua::ZH::MMSEG;
 
-    my $seg = Lingua::ZH::MMSEG->new();
-
     my $zh_string="現代漢語的複合動詞可分三個結構語意關係來探討";
 
-    my @phrases = $seg->mmseg($zh_string);
+    my @phrases = mmseg($zh_string);
     # use MMSEG algorithm
 
-    my @phrases = $seg->fmm($zh_string);
+    my @phrases = fmm($zh_string);
     # use Forward Maximum Matching algorithm
 
 =head1 DESCRIPTION
@@ -63,25 +61,18 @@ If you don't have cpanm,
 Since this module has no dependency at all, you just simply create a new perl
 script as shown in SYNOPSIS.
 
-=head1 METHODS
-
-=head2 C<new>
-
-    my $seg = Lingua::ZH::MMSEG->new()
-
-Initialize phrase dictionary. Currently it is not allowed to add new phrase into
-the dictionary.
+=head1 FUNCTIONS
 
 =head2 C<mmseg>
 
-    my @phrases = $seg->mmseg($zh_string);
+    my @phrases = mmseg($zh_string);
 
 Use L<MMSEG|http://technology.chtsai.org/mmseg/> algorithm to generate segmented
 chinese phrases.
 
 =head2 C<fmm>
 
-    my @phrases = $seg->fmm($zh_string);
+    my @phrases = fmm($zh_string);
 
 Use forward maximum matching algorithm to generate segmented chinese phrases.
 It has lower complexity compare to mmseg, but it cannot solve phrase ambiguities.
