@@ -1,4 +1,4 @@
-# This Makefile is for the Lingua::ZH::Segment extension to perl.
+# This Makefile is for the Lingua::ZH::MMSEG extension to perl.
 #
 # It was generated automatically by MakeMaker version
 # 6.62 (Revision: 66200) from the contents of
@@ -14,14 +14,14 @@
 #     AUTHOR => []
 #     BUILD_REQUIRES => { Test::More=>q[0.42], ExtUtils::MakeMaker=>q[6.62] }
 #     CONFIGURE_REQUIRES => {  }
-#     DISTNAME => q[Lingua-ZH-Segment]
+#     DISTNAME => q[Lingua-ZH-MMSEG]
 #     LICENSE => q[lgpl]
 #     MIN_PERL_VERSION => q[5.014]
-#     NAME => q[Lingua::ZH::Segment]
+#     NAME => q[Lingua::ZH::MMSEG]
 #     NO_META => q[1]
 #     PREREQ_PM => { Test::More=>q[0.42], ExtUtils::MakeMaker=>q[6.62] }
-#     VERSION => q[undef]
-#     VERSION_FROM => q[lib/Lingua/ZH/Segment.pm]
+#     VERSION => q[0.01]
+#     VERSION_FROM => q[lib/Lingua/ZH/MMSEG.pm]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
 
@@ -60,13 +60,13 @@ VENDORLIBEXP =
 AR_STATIC_ARGS = cr
 DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
-NAME = Lingua::ZH::Segment
-NAME_SYM = Lingua_ZH_Segment
-VERSION = undef
+NAME = Lingua::ZH::MMSEG
+NAME_SYM = Lingua_ZH_MMSEG
+VERSION = 0.01
 VERSION_MACRO = VERSION
-VERSION_SYM = undef
+VERSION_SYM = 0_01
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = undef
+XS_VERSION = 0.01
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -150,11 +150,11 @@ MM_REVISION = 66200
 # PARENT_NAME = NAME without BASEEXT and no trailing :: (eg Foo::Bar)
 # DLBASE  = Basename part of dynamic library. May be just equal BASEEXT.
 MAKE = make
-FULLEXT = Lingua/ZH/Segment
-BASEEXT = Segment
+FULLEXT = Lingua/ZH/MMSEG
+BASEEXT = MMSEG
 PARENT_NAME = Lingua::ZH
 DLBASE = $(BASEEXT)
-VERSION_FROM = lib/Lingua/ZH/Segment.pm
+VERSION_FROM = lib/Lingua/ZH/MMSEG.pm
 OBJECT = 
 LDFROM = $(OBJECT)
 LINKTYPE = dynamic
@@ -188,10 +188,10 @@ PERL_ARCHIVE       =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = lib/Lingua/ZH/Segment.pm
+TO_INST_PM = lib/Lingua/ZH/MMSEG.pm
 
-PM_TO_BLIB = lib/Lingua/ZH/Segment.pm \
-	blib/lib/Lingua/ZH/Segment.pm
+PM_TO_BLIB = lib/Lingua/ZH/MMSEG.pm \
+	blib/lib/Lingua/ZH/MMSEG.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -259,8 +259,8 @@ CI = ci -u
 RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
-DISTNAME = Lingua-ZH-Segment
-DISTVNAME = Lingua-ZH-Segment-undef
+DISTNAME = Lingua-ZH-MMSEG
+DISTVNAME = Lingua-ZH-MMSEG-0.01
 
 
 # --- MakeMaker macro section:
@@ -771,7 +771,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="undef">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.01">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT></ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR></AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
@@ -786,7 +786,7 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  lib/Lingua/ZH/Segment.pm blib/lib/Lingua/ZH/Segment.pm 
+	  lib/Lingua/ZH/MMSEG.pm blib/lib/Lingua/ZH/MMSEG.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

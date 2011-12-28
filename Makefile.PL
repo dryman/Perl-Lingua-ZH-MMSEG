@@ -2,11 +2,11 @@ use strict;
 use warnings;
 use inc::Module::Install;
 
-name 'Lingua-ZH-Segment';
-all_from 'lib/Lingua/ZH/Segment.pm';
+name 'Lingua-ZH-MMSEG';
+all_from 'lib/Lingua/ZH/MMSEG.pm';
 test_requires 'Test::More' => 0.42;
 license 'lgpl';
 perl_version '5.014';
-readme_markdown_from 'lib/Lingua/ZH/Segment.pm';
+readme_markdown_from 'lib/Lingua/ZH/MMSEG.pm';
 
 WriteAll;

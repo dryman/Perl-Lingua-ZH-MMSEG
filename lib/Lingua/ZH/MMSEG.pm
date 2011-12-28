@@ -1,4 +1,4 @@
-package Lingua::ZH::Segment;
+package Lingua::ZH::MMSEG;
 use strict;
 use warnings;
 use utf8;
