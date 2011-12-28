@@ -6,7 +6,71 @@ use Encode qw (is_utf8);
 use encoding 'utf8';
 use List::Util qw(sum);
 
-our $VERSION=0.012;
+our $VERSION=0.30;
+
+=encoding utf8
+
+=head1 NAME
+
+Lingua::ZH::MMSEG Mandarin Chinese segmentation
+
+=head1 SYNOPSIS
+
+    use Lingua::ZH::MMSEG;
+
+    my $seg = Lingua::ZH::MMSEG->new();
+
+    my @phrases = $seg->mmseg($zh_string);
+    # use MMSEG algorithm
+
+    my @phrases = $seg->fmm($zh_string);
+    # use Forward Maximum Matching algorithm
+
+=head1 DESCRIPTION
+
+A problem in computational analysis of Chinese text is that there are no word
+boundaries in conventionally printed text. Since the word is such a fundamental
+linguistic unit, it is necessary to identify words in Chinese text so that
+higher-level analyses can be performed. 
+
+Lingua::ZH::MMSEG implements L<MMSEG|http://technology.chtsai.org/mmseg/>
+original developed by L<Chih-Hao-Tsai|http://chtsai.org/>. The whole module is
+rewritten in pure Perl, and the phrase library is 新酷音 forked from
+L<OpenFoundry|http://www.openfoundry.org/of/projects/436>.
+
+=head1 METHODS
+
+=head2 C<new>
+
+    my $seg = Lingua::ZH::MMSEG->new()
+
+Initialize phrase dictionary. Currently it is not allowed to add new phrase into
+the dictionary.
+
+=head2 C<mmseg>
+
+    my @phrases = $seg->mmseg($zh_string);
+
+Use L<MMSEG|http://technology.chtsai.org/mmseg/> algorithm to generate segmented
+chinese phrases.
+
+=head2 C<fmm>
+
+    my @phrases = $seg->fmm($zh_string);
+
+Use forward maximum matching algorithm to generate segmented chinese phrases.
+It has lower complexity compare to mmseg, but it cannot solve phrase ambiguities.
+
+=head1 AUTHOR
+
+Felix Ren-Chyan Chern (dryman) C<< <idryman@gmail.com> >>
+
+=head1 LICENSE AND COPYRIGHT
+
+    L<GNU Lesser General Public License 2.1
+    (LGPL)|http://www.opensource.org/licenses/lgpl-2.1.php>
+
+=cut
 
 our %dict;
 
@@ -37,6 +101,31 @@ sub mmseg {
       my $word1 = &_mmseg($str);
       push @phrases, $word1;
       $str = substr $str, length $word1;
+    }
+  }
+  return @phrases;
+}
+
+sub fmm {
+  my $self = shift;
+  my $string = shift;
+  my @phrases;
+  die unless is_utf8($string);
+  chomp ($string);
+  for my $str (split (/([ -~])+/, $string)) {
+    if ($str =~ /^[ -~]/) {
+      push @phrases, $str,
+      next;
+    }
+    while($str){
+      for (reverse (1..(length $str))) {
+        my $match = substr $str, 0, $_;
+        if (defined $dict{$match} or $_==1){
+          push @phrases, $match;
+          $str = substr $str, $_;
+          last;
+        }
+      }
     }
   }
   return @phrases;

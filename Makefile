@@ -11,7 +11,7 @@
 
 #   MakeMaker Parameters:
 
-#     AUTHOR => []
+#     AUTHOR => [q[Felix Ren-Chyan Chern (dryman) C<< <idryman@gmail.com> >>]]
 #     BUILD_REQUIRES => { Test::More=>q[0.42], ExtUtils::MakeMaker=>q[6.62] }
 #     CONFIGURE_REQUIRES => {  }
 #     DISTNAME => q[Lingua-ZH-MMSEG]
@@ -20,7 +20,7 @@
 #     NAME => q[Lingua::ZH::MMSEG]
 #     NO_META => q[1]
 #     PREREQ_PM => { Test::More=>q[0.42], ExtUtils::MakeMaker=>q[6.62] }
-#     VERSION => q[0.011]
+#     VERSION => q[0.3]
 #     VERSION_FROM => q[lib/Lingua/ZH/MMSEG.pm]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
@@ -62,11 +62,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Lingua::ZH::MMSEG
 NAME_SYM = Lingua_ZH_MMSEG
-VERSION = 0.011
+VERSION = 0.3
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_011
+VERSION_SYM = 0_3
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.011
+XS_VERSION = 0.3
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -166,7 +166,7 @@ C_FILES  =
 O_FILES  = 
 H_FILES  = 
 MAN1PODS = 
-MAN3PODS = 
+MAN3PODS = lib/Lingua/ZH/MMSEG.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
@@ -260,7 +260,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Lingua-ZH-MMSEG
-DISTVNAME = Lingua-ZH-MMSEG-0.011
+DISTVNAME = Lingua-ZH-MMSEG-0.3
 
 
 # --- MakeMaker macro section:
@@ -412,8 +412,10 @@ POD2MAN_EXE = $(PERLRUN) "-MExtUtils::Command::MM" -e pod2man "--"
 POD2MAN = $(POD2MAN_EXE)
 
 
-manifypods : pure_all 
-	$(NOECHO) $(NOOP)
+manifypods : pure_all  \
+	lib/Lingua/ZH/MMSEG.pm
+	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
+	  lib/Lingua/ZH/MMSEG.pm $(INST_MAN3DIR)/Lingua::ZH::MMSEG.$(MAN3EXT) 
 
 
 
@@ -771,9 +773,9 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.011">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.3">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT></ABSTRACT>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <AUTHOR></AUTHOR>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <AUTHOR>Felix Ren-Chyan Chern (dryman) C&lt;&lt; &lt;idryman@gmail.com&gt; &gt;&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <PERLCORE VERSION="5,008006,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="darwin-2level-5.14" />' >> $(DISTNAME).ppd

@@ -1,0 +1,59 @@
+# NAME
+
+Lingua::ZH::MMSEG Mandarin Chinese segmentation
+
+# SYNOPSIS
+
+    use Lingua::ZH::MMSEG;
+
+    my $seg = Lingua::ZH::MMSEG->new();
+
+    my @phrases = $seg->mmseg($zh_string);
+    # use MMSEG algorithm
+
+    my @phrases = $seg->fmm($zh_string);
+    # use Forward Maximum Matching algorithm
+
+# DESCRIPTION
+
+A problem in computational analysis of Chinese text is that there are no word
+boundaries in conventionally printed text. Since the word is such a fundamental
+linguistic unit, it is necessary to identify words in Chinese text so that
+higher-level analyses can be performed. 
+
+Lingua::ZH::MMSEG implements [MMSEG](http://technology.chtsai.org/mmseg/)
+original developed by [Chih-Hao-Tsai](http://chtsai.org/). The whole module is
+rewritten in pure Perl, and the phrase library is 新酷音 forked from
+[OpenFoundry](http://www.openfoundry.org/of/projects/436).
+
+# METHODS
+
+## `new`
+
+    my $seg = Lingua::ZH::MMSEG->new()
+
+Initialize phrase dictionary. Currently it is not allowed to add new phrase into
+the dictionary.
+
+## `mmseg`
+
+    my @phrases = $seg->mmseg($zh_string);
+
+Use [MMSEG](http://technology.chtsai.org/mmseg/) algorithm to generate segmented
+chinese phrases.
+
+## `fmm`
+
+    my @phrases = $seg->fmm($zh_string);
+
+Use forward maximum matching algorithm to generate segmented chinese phrases.
+It has lower complexity compare to mmseg, but it cannot solve phrase ambiguities.
+
+# AUTHOR
+
+Felix Ren-Chyan Chern (dryman) `<idryman@gmail.com>`
+
+# LICENSE AND COPYRIGHT
+
+    L<GNU Lesser General Public License 2.1
+    (LGPL)|http://www.opensource.org/licenses/lgpl-2.1.php>
