@@ -16,11 +16,11 @@
 #     CONFIGURE_REQUIRES => {  }
 #     DISTNAME => q[Lingua-ZH-MMSEG]
 #     LICENSE => q[lgpl]
-#     MIN_PERL_VERSION => q[5.014]
+#     MIN_PERL_VERSION => q[5.008006]
 #     NAME => q[Lingua::ZH::MMSEG]
 #     NO_META => q[1]
 #     PREREQ_PM => { Test::More=>q[0.42], ExtUtils::MakeMaker=>q[6.62] }
-#     VERSION => q[0.01]
+#     VERSION => q[0.011]
 #     VERSION_FROM => q[lib/Lingua/ZH/MMSEG.pm]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
@@ -62,11 +62,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Lingua::ZH::MMSEG
 NAME_SYM = Lingua_ZH_MMSEG
-VERSION = 0.01
+VERSION = 0.011
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_01
+VERSION_SYM = 0_011
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.01
+XS_VERSION = 0.011
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -260,7 +260,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Lingua-ZH-MMSEG
-DISTVNAME = Lingua-ZH-MMSEG-0.01
+DISTVNAME = Lingua-ZH-MMSEG-0.011
 
 
 # --- MakeMaker macro section:
@@ -771,11 +771,11 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.01">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.011">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT></ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR></AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <PERLCORE VERSION="5,014,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <PERLCORE VERSION="5,008006,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="darwin-2level-5.14" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> $(DISTNAME).ppd

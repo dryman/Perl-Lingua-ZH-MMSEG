@@ -6,7 +6,7 @@ use Encode qw (is_utf8);
 use encoding 'utf8';
 use List::Util qw(sum);
 
-our $VERSION=0.010;
+our $VERSION=0.012;
 
 our %dict;
 
@@ -28,8 +28,8 @@ sub mmseg {
   my @phrases;
   die unless is_utf8($string);
   chomp ($string);
-  for my $str (split (/([[:print:]]+)/a, $string)) {
-    if ($str =~ /^[[:print:]]/a) {
+  for my $str (split (/([ -~]+)/, $string)) {
+    if ($str =~ /^[ -~]/) {
       push @phrases, $str;
       next;
     }
