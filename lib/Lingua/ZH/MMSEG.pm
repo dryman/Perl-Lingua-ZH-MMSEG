@@ -67,8 +67,7 @@ Felix Ren-Chyan Chern (dryman) C<< <idryman@gmail.com> >>
 
 =head1 LICENSE AND COPYRIGHT
 
-    L<GNU Lesser General Public License 2.1
-    (LGPL)|http://www.opensource.org/licenses/lgpl-2.1.php>
+L<GNU Lesser General Public License 2.1 |http://www.opensource.org/licenses/lgpl-2.1.php>
 
 =cut
 
