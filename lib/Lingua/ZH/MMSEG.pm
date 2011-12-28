@@ -6,7 +6,11 @@ use Encode qw (is_utf8);
 use encoding 'utf8';
 use List::Util qw(sum);
 
-our $VERSION=0.3001;
+our $VERSION=0.4000;
+
+require Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT = qw(mmseg fmm);
 
 =encoding utf8
 
@@ -94,20 +98,13 @@ L<GNU Lesser General Public License 2.1 |http://www.opensource.org/licenses/lgpl
 
 our %dict;
 
-sub new {
-  my $class = shift;
-  my $self = { };
-  while (<DATA>){
-    chomp;
-    my ($phrase,$freq) = split;
-    $dict{$phrase}=$freq;
-  }
-  bless $self, $class;
-  return $self;
+while (<DATA>){
+  chomp;
+  my ($phrase,$freq) = split;
+  $dict{$phrase}=$freq;
 }
 
 sub mmseg {
-  my $self = shift;
   my $string = shift;
   my @phrases;
   die unless is_utf8($string);
@@ -127,7 +124,6 @@ sub mmseg {
 }
 
 sub fmm {
-  my $self = shift;
   my $string = shift;
   my @phrases;
   die unless is_utf8($string);
