@@ -16,9 +16,13 @@ Lingua::ZH::MMSEG Mandarin Chinese segmentation
 
 =head1 SYNOPSIS
 
+    #!/usr/bin/perl
+    use utf8;
     use Lingua::ZH::MMSEG;
 
     my $seg = Lingua::ZH::MMSEG->new();
+
+    my $zh_string="現代漢語的複合動詞可分三個結構語意關係來探討";
 
     my @phrases = $seg->mmseg($zh_string);
     # use MMSEG algorithm
@@ -37,6 +41,22 @@ Lingua::ZH::MMSEG implements L<MMSEG|http://technology.chtsai.org/mmseg/>
 original developed by L<Chih-Hao-Tsai|http://chtsai.org/>. The whole module is
 rewritten in pure Perl, and the phrase library is 新酷音 forked from
 L<OpenFoundry|http://www.openfoundry.org/of/projects/436>.
+
+=head1 INSTALL
+
+If you are familier with CPAN, just simply
+
+    cpanm Lingua::ZH::MMSEG
+
+If you are not,
+
+    make 
+    sudo make install
+
+=head1 USAGE
+
+Since this module has no dependency at all, you just simply create a new perl
+script as shown in SYNOPSIS.
 
 =head1 METHODS
 
