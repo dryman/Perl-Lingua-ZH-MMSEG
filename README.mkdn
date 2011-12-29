@@ -16,6 +16,14 @@ Lingua::ZH::MMSEG Mandarin Chinese segmentation
     my @phrases = fmm($zh_string);
     # use Forward Maximum Matching algorithm
 
+    while (<>) {
+      chomp;
+      push @phrases, mmseg;
+    } # mmseg and fmm will parse $_ automaticly
+
+    print $_, word_freq($_) for @phrases;
+    # you can get phrase frequency by calling word_freq
+
 # DESCRIPTION
 
 A problem in computational analysis of Chinese text is that there are no word
@@ -25,8 +33,8 @@ higher-level analyses can be performed.
 
 Lingua::ZH::MMSEG implements [MMSEG](http://technology.chtsai.org/mmseg/)
 original developed by [Chih-Hao-Tsai](http://chtsai.org/). The whole module is
-rewritten in pure Perl, and the phrase library is 新酷音 forked from
-[OpenFoundry](http://www.openfoundry.org/of/projects/436).
+rewritten in pure Perl, and the phrase library is 
+[新酷音 forked from OpenFoundry](http://www.openfoundry.org/of/projects/436).
 
 # INSTALL
 
@@ -40,26 +48,51 @@ If you don't have cpanm,
     chmod +x cpanm
     sudo cp cpanm /usr/local/bin
 
-# USAGE
-
-Since this module has no dependency at all, you just simply create a new perl
-script as shown in SYNOPSIS.
-
 # FUNCTIONS
 
 ## `mmseg`
 
-    my @phrases = mmseg($zh_string);
+    @phrases = mmseg($zh_string);
+    @phrases = mmseg; 
+    # use $_ automatically
 
-Use [MMSEG](http://technology.chtsai.org/mmseg/) algorithm to generate segmented
-chinese phrases.
+`mmseg` convert a mandarin Chinese string to a sequence of phrases using 
+[MMSEG](http://technology.chtsai.org/mmseg/) algorithm. If there were any
+english containted in the input string, it simply parse the linked ascii code as
+one phrase. For example:
 
-## `fmm`
+    $_ = "這裡有中文Today is Wednesday.這邊又有中文 I go to school on Friday.";
+    print "$_\n" for mmseg;
 
-    my @phrases = fmm($zh_string);
+    這裡有
+    中文
+    Today is Wednesday.
+    這邊
+    又有
+    中文
+     I go to school on Friday.
 
-Use forward maximum matching algorithm to generate segmented chinese phrases.
-It has lower complexity compare to mmseg, but it cannot solve phrase ambiguities.
+The ascii characters are recognized by `/[ -~]+/`.
+
+## `fmm` (Forward Maximum Matching)
+
+    @phrases = fmm($zh_string);
+    @phrases = fmm; 
+    # use $_ automatically
+
+`fmm` uses forward maximum matching (so called longest match principle) to
+convert a mandarin Chinese string to a sequence of phrases. It uses the same
+rule of `mmseg` to deal with ascii string. The advantage of `fmm` is it has
+lower complexity compare to `mmseg`; the disadvantage is it cannot solve
+ambiguity when there is multiple way to seperate a string.
+
+## `word_freq`
+
+    $freq = word_freq($phrase);
+    $freq = word_freq;
+    # use $_ automatically
+
+`word_freq` return the phrase frequency defined in [新酷音](http://www.openfoundry.org/of/projects/436).
 
 # AUTHOR
 
