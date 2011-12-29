@@ -6,7 +6,7 @@ use Encode qw (is_utf8);
 use encoding 'utf8';
 use List::Util qw(sum);
 
-our $VERSION=0.4000;
+our $VERSION=0.4004;
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -32,6 +32,14 @@ Lingua::ZH::MMSEG Mandarin Chinese segmentation
     my @phrases = fmm($zh_string);
     # use Forward Maximum Matching algorithm
 
+    while (<>) {
+      chomp;
+      push @phrases, mmseg;
+    } # mmseg and fmm will parse $_ automaticly
+
+    print $_, word_freq($_) for @phrases;
+    # you can get phrase frequency by calling word_freq
+
 =head1 DESCRIPTION
 
 A problem in computational analysis of Chinese text is that there are no word
@@ -41,8 +49,8 @@ higher-level analyses can be performed.
 
 Lingua::ZH::MMSEG implements L<MMSEG|http://technology.chtsai.org/mmseg/>
 original developed by L<Chih-Hao-Tsai|http://chtsai.org/>. The whole module is
-rewritten in pure Perl, and the phrase library is 新酷音 forked from
-L<OpenFoundry|http://www.openfoundry.org/of/projects/436>.
+rewritten in pure Perl, and the phrase library is 
+L<新酷音 forked from OpenFoundry|http://www.openfoundry.org/of/projects/436>.
 
 =head1 INSTALL
 
@@ -56,26 +64,51 @@ If you don't have cpanm,
     chmod +x cpanm
     sudo cp cpanm /usr/local/bin
 
-=head1 USAGE
-
-Since this module has no dependency at all, you just simply create a new perl
-script as shown in SYNOPSIS.
-
 =head1 FUNCTIONS
 
 =head2 C<mmseg>
 
-    my @phrases = mmseg($zh_string);
+    @phrases = mmseg($zh_string);
+    @phrases = mmseg; 
+    # use $_ automatically
 
-Use L<MMSEG|http://technology.chtsai.org/mmseg/> algorithm to generate segmented
-chinese phrases.
+C<mmseg> convert a mandarin Chinese string to a sequence of phrases using 
+L<MMSEG|http://technology.chtsai.org/mmseg/> algorithm. If there were any
+english containted in the input string, it simply parse the linked ascii code as
+one phrase. For example:
 
-=head2 C<fmm>
+    $_ = "這裡有中文Today is Wednesday.這邊又有中文 I go to school on Friday.";
+    print "$_\n" for mmseg;
 
-    my @phrases = fmm($zh_string);
+    這裡有
+    中文
+    Today is Wednesday.
+    這邊
+    又有
+    中文
+     I go to school on Friday.
 
-Use forward maximum matching algorithm to generate segmented chinese phrases.
-It has lower complexity compare to mmseg, but it cannot solve phrase ambiguities.
+The ascii characters are recognized by C</[ -~]+/>.
+
+=head2 C<fmm> (Forward Maximum Matching)
+
+    @phrases = fmm($zh_string);
+    @phrases = fmm; 
+    # use $_ automatically
+
+C<fmm> uses forward maximum matching (so called longest match principle) to
+convert a mandarin Chinese string to a sequence of phrases. It uses the same
+rule of C<mmseg> to deal with ascii string. The advantage of C<fmm> is it has
+lower complexity compare to C<mmseg>; the disadvantage is it cannot solve
+ambiguity when there is multiple way to seperate a string.
+
+=head2 C<word_freq>
+
+    $freq = word_freq($phrase);
+    $freq = word_freq;
+    # use $_ automatically
+
+C<word_freq> return the phrase frequency defined in L<新酷音|http://www.openfoundry.org/of/projects/436>.
 
 =head1 AUTHOR
 
@@ -95,8 +128,13 @@ while (<DATA>){
   $dict{$phrase}=$freq;
 }
 
+sub word_freq {
+  my $string = $_[0] ? $_[0] : $_;
+  $dict{$string};
+}
+
 sub mmseg {
-  my $string = shift;
+  my $string = $_[0] ? $_[0] : $_;
   my @phrases;
   die unless is_utf8($string);
   chomp ($string);
@@ -115,7 +153,7 @@ sub mmseg {
 }
 
 sub fmm {
-  my $string = shift;
+  my $string = $_[0] ? $_[0] : $_;
   my @phrases;
   die unless is_utf8($string);
   chomp ($string);
@@ -171,9 +209,9 @@ sub _mmseg {
   # rule 4, check length one word and choose max freq of it
   for (@min_varience_chunk) {
     my $freq = 0;
-    $freq += $dict{$_->{w1}} if length $_->{w1} == 1;
-    $freq += $dict{$_->{w2}} if length $_->{w2} == 1;
-    $freq += $dict{$_->{w3}} if length $_->{w3} == 1;
+    $freq += $dict{$_->{w1}} if length $_->{w1} == 1 and defined $dict{$_->{w1}};
+    $freq += $dict{$_->{w2}} if length $_->{w2} == 1 and defined $dict{$_->{w2}};
+    $freq += $dict{$_->{w3}} if length $_->{w3} == 1 and defined $dict{$_->{w3}};
     $_->{freq} = $freq;
   }
   my @last = sort {$b->{freq} <=> $a->{freq}} @min_varience_chunk;

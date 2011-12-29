@@ -5,7 +5,8 @@ use Test::More tests => 7;
 
 use Lingua::ZH::MMSEG;
 
-my @arr = fmm('整理完房間就會想在房間念書');
+$_ = '整理完房間就會想在房間念書';
+my @arr = fmm;
 is $arr[0], '整理', '整理';
 is $arr[1], '完', '完';
 is $arr[2], '房間','房間';
