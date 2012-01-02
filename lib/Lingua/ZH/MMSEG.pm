@@ -6,11 +6,11 @@ use Encode qw (is_utf8);
 use encoding 'utf8';
 use List::Util qw(sum);
 
-our $VERSION=0.4004;
+our $VERSION=0.4005;
 
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(mmseg fmm);
+our @EXPORT = qw(mmseg fmm word_freq);
 
 =encoding utf8
 
@@ -66,7 +66,7 @@ If you don't have cpanm,
 
 =head1 FUNCTIONS
 
-=head2 C<mmseg>
+=head2 mmseg
 
     @phrases = mmseg($zh_string);
     @phrases = mmseg; 
@@ -90,7 +90,7 @@ one phrase. For example:
 
 The ascii characters are recognized by C</[ -~]+/>.
 
-=head2 C<fmm> (Forward Maximum Matching)
+=head2 fmm (Forward Maximum Matching)
 
     @phrases = fmm($zh_string);
     @phrases = fmm; 
@@ -102,7 +102,7 @@ rule of C<mmseg> to deal with ascii string. The advantage of C<fmm> is it has
 lower complexity compare to C<mmseg>; the disadvantage is it cannot solve
 ambiguity when there is multiple way to seperate a string.
 
-=head2 C<word_freq>
+=head2 word_freq
 
     $freq = word_freq($phrase);
     $freq = word_freq;
